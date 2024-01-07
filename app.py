@@ -1,5 +1,6 @@
-from flask import Flask,render_template,redirect,request
+from flask import Flask,render_template,redirect,request,session
 from mydb import Database
+import api
 
 
 app=Flask(__name__)
@@ -48,6 +49,17 @@ def profile():
     return render_template('profile.html')
 
 
+@app.route('/ner')
+def ner():
+    return render_template('ner.html')
+
+@app.route('/perform_ner',methods=['post'])
+
+def perform_ner():
+    txt=request.form.get('ner_txt')
+    response=api.ner(txt)        
+    return render_template('ner.html',response=response)
+    
 
         
 app.run(debug=True)
